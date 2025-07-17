@@ -1,0 +1,10 @@
+# IDE and OS specific files
+.idea/
+*.iml
+.DS_Store
+
+# Dependencies
+node_modules/
+
+# Environment variables - these should be set up manually on each machine
+.env
