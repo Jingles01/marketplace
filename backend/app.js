@@ -40,14 +40,6 @@ app.use('/api/reviews', reviewRoutes);
 app.use('/api/location', locationRoutes);
 app.use('/api/favorites', favoriteRoutes);
 
-if(process.env.NODE_ENV === 'production') {
-    app.use(express.static(path.join(__dirname, '../frontend/dist')));
-
-    app.get('*', (req, res) => {
-        res.sendFile(path.join(__dirname, '../frontend/dist', 'index.html'));
-    });
-}
-
 app.use(function(req, res, next) {
     if (!res.headersSent) {
         res.status(404).json({ error: 'Not Found - API endpoint does not exist or route not handled' });
