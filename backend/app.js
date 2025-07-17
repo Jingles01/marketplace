@@ -19,6 +19,7 @@ const app = express();
 mongoose.connect(config.dbURL)
     .then(() => console.log('MongoDB Connected!'))
     .catch(err => {
+        console.error('Database Connection Error:', err);
         process.exit(1);
     });
 
