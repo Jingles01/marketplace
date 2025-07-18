@@ -40,6 +40,7 @@ router.post("/", authenticateJWT,  upload.single("image"), async (req, res) => {
         await newListing.save();
         res.status(201).json({ listing: newListing });
     } catch (error) {
+        console.error("ERROR CREATING LISTING:", error);
         res.status(400).json({ error: error.message });
     }
 });
