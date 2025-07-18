@@ -26,7 +26,7 @@ const ListingDetailsPage = () => {
                 setListing(response.data);
 
                 const currentUser = await getCurrentUser();
-                setIsOwner(currentUser === response.data.createdBy._id);
+                setIsOwner(currentUser === response.data?.createdBy?._id);
             } catch (err) {
                 setError("Failed to load listings");
             }
@@ -114,7 +114,7 @@ const ListingDetailsPage = () => {
 
     const confirmMarkAsSold = async () => {
         try {
-            const API_URL = 'http://localhost:3546/api';
+            const API_URL = config.apiUrl || 'http://localhost:3546/api';
             await axios.put(`${API_URL}/listings/${id}/sold`, { buyerId: selectedBuyerId });
             setListing({ ...listing, sold: true, buyerId: selectedBuyerId });
             setShowSoldConfirmation(false);
@@ -160,7 +160,7 @@ const ListingDetailsPage = () => {
                 <div className="bg-red-100 text-red-700 p-3 rounded mb-4">{error}</div>
             )}
             <div className="mb-6 border border-gray-200 rounded-md overflow-hidden bg-gray-100 flex justify-center items-center h-64 md:h-96">
-                {listing.images && listing.images.length > 0 ? (
+                {listing.images?.length > 0 ? (
                     <img
                         src={listing.images[0]?.url}
                         alt={listing.title}
