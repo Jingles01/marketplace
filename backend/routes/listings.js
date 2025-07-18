@@ -210,6 +210,7 @@ router.get("/:id", async (req, res) => {
         if (!listing) {
             return res.status(404).json({ error: "Listing not found" });
         }
+        res.json(listing);
     } catch (err) {
         res.status(400).json({ error: err.message });
     }
