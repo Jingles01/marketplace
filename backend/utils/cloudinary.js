@@ -1,9 +1,5 @@
 const cloudinary = require("cloudinary").v2;
-
-console.log("Cloudinary Config Check:");
-console.log("Cloud Name:", process.env.CLOUDINARY_CLOUD_NAME ? "Loaded" : "MISSING");
-console.log("API Key:", process.env.CLOUDINARY_API_KEY ? "Loaded" : "MISSING");
-console.log("API Secret:", process.env.CLOUDINARY_API_SECRET ? "Loaded" : "MISSING");
+const streamifier = require('streamifier');
 
 cloudinary.config({
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -11,22 +7,23 @@ cloudinary.config({
     api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-const uploadImage = async (fileFromMulter) => {
-    try {
-        const b64 = Buffer.from(fileFromMulter.buffer).toString("base64");
-        let dataURI = "data:" + fileFromMulter.mimetype + ";base64," + b64;
-
-        return await cloudinary.uploader.upload(dataURI, {
-            folder: 'marketplace',
-            resource_type: 'auto',
-            public_id: undefined,
-            use_filename: true,
-            unique_filename: true,
-        });
-    } catch (error) {
-        console.error("Cloudinary Upload Error:", error);
-        throw new Error('Image upload failed');
-    }
+const uploadImage = (fileBuffer) => {
+    return new Promise((resolve, reject) => {
+        const uploadStream = cloudinary.uploader.upload_stream(
+            {
+                resource_type: 'auto'
+            },
+            (error, result) => {
+                if (error) {
+                    console.error("Cloudinary upload error", error);
+                    reject(new Error('image upload failed'));
+                } else{
+                    resolve(result);
+                }
+            }
+        );
+        streamifier.createReadStream(fileBuffer).pipe(uploadStream);
+    });
 };
 
 module.exports = {uploadImage}

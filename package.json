@@ -19,5 +19,8 @@
   "type": "commonjs",
   "devDependencies": {
     "concurrently": "^9.1.2"
+  },
+  "dependencies": {
+    "streamifier": "^0.1.1"
   }
 }
