@@ -2,7 +2,9 @@
 
 A full-stack web application that connects local buyers and sellers, providing a user-friendly platform for community-based commerce.
 
-**Link to project:** [https://marketplace-frontend-09i8.onrender.com](https://marketplace-frontend-09i8.onrender.com)
+**Link to project:**
+[Launch backend](https://marketplace-backend-7510.onrender.com)
+[MarketPlace](https://marketplace-frontend-09i8.onrender.com)
 
 ## How It's Made:
 
