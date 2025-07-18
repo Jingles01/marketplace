@@ -17,6 +17,7 @@ const ListingDetailsPage = () => {
     const [showSoldConfirmation, setShowSoldConfirmation] = useState(false);
     const [selectedBuyerId, setSelectedBuyerId] = useState("");
     const [buyers, setBuyers] = useState([]);
+    const[isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         const fetchListing = async () => {
@@ -29,6 +30,8 @@ const ListingDetailsPage = () => {
                 setIsOwner(currentUser === response.data?.createdBy?._id);
             } catch (err) {
                 setError("Failed to load listings");
+            } finally {
+                setIsLoading(false);
             }
         };
         fetchListing();
@@ -126,11 +129,13 @@ const ListingDetailsPage = () => {
     const inputClass = "block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm disabled:bg-gray-50";
     const labelClass = "block text-sm font-medium text-gray-700 mb-1";
 
-
+    if(isLoading) {
+        return <div className="text-center py-10 text-gray-600">Loading...</div>;
+    }
     if (error)
         return <div className="max-w-4xl mx-auto p-6 mt-10 bg-red-100 text-red-700 rounded-md shadow-md">{error}</div>;
     if (!listing)
-        return <div className="text-center py-10 text-gray-600">Loading...</div>;
+        return <div className="text-center py-10 text-gray-600">Listing not found</div>;
 
     return (
         <div className="container mx-auto max-w-4xl p-4 md:p-6 bg-white rounded-lg shadow-md mt-6 mb-10">
